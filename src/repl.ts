@@ -1,5 +1,7 @@
 import { createInterface } from "readline";
 
+import { getCommands } from "./commandsRegistry.js";
+
 export function cleanInput(input: string): string[] {
     return input
             .toLowerCase()
@@ -15,6 +17,8 @@ export function startREPL() {
         prompt: "pokedex > "
     });
 
+    const commandsRegistry = getCommands();
+
     rl.prompt();
 
     rl.on('line', (line) => {
@@ -25,7 +29,13 @@ export function startREPL() {
             return;
         } 
 
-        console.log(`Your command was: ${input[0]}`);
+        const command = input[0];
+
+        if (commandsRegistry[command]) {
+            commandsRegistry[command].callback(commandsRegistry);
+        } else {
+            console.log("Unknown command");
+        }
         rl.prompt();
     });
 }
