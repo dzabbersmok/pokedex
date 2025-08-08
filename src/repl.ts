@@ -41,5 +41,7 @@ export function startREPL() {
         } catch (error) {
             console.log(error);
         }
+
+        rl.prompt();
 });
 }
