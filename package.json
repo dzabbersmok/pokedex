@@ -3,17 +3,21 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type":"module",
+  "type": "module",
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/main.js",
-    "dev": "npx tsc && node dist/main.js"
+    "dev": "npx tsc && node dist/main.js",
+    "test": "vitest --run"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dzabbersmok/pokedex.git"
   },
-  "keywords": ["pokemon", "poke"],
+  "keywords": [
+    "pokemon",
+    "poke"
+  ],
   "author": "Sebastian Krata",
   "license": "ISC",
   "bugs": {
@@ -22,6 +26,7 @@
   "homepage": "https://github.com/dzabbersmok/pokedex#readme",
   "devDependencies": {
     "@types/node": "^24.2.0",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
   }
 }
