@@ -17,8 +17,6 @@ export function startREPL() {
         prompt: "pokedex > "
     });
 
-    const commandsRegistry = getCommands();
-
     rl.prompt();
 
     rl.on('line', (line) => {
@@ -30,12 +28,18 @@ export function startREPL() {
         } 
 
         const command = input[0];
+        const commandsRegistry = getCommands();
 
-        if (commandsRegistry[command]) {
-            commandsRegistry[command].callback(commandsRegistry);
-        } else {
-            console.log("Unknown command");
+        if (!commandsRegistry[command]) {
+            console.log(`Unknown command: "${command}". Type "help" for a list of commands.`);
+            rl.prompt();
+            return;
         }
-        rl.prompt();
-    });
+
+        try {
+            commandsRegistry[command].callback(commandsRegistry);
+        } catch (error) {
+            console.log(error);
+        }
+});
 }
