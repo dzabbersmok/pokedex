@@ -1,6 +1,4 @@
-import { createInterface } from "readline";
-
-import { getCommands } from "./commandsRegistry.js";
+import { State } from "./state.js";
 
 export function cleanInput(input: string): string[] {
     return input
@@ -10,38 +8,31 @@ export function cleanInput(input: string): string[] {
             .filter(word => word !== "");
 }
 
-export function startREPL() {
-    const rl = createInterface({
-        input: process.stdin,
-        output: process.stdout,
-        prompt: "pokedex > "
-    });
+export function startREPL(state: State) {
+    state.readline.prompt();
 
-    rl.prompt();
-
-    rl.on('line', (line) => {
+    state.readline.on('line', async (line) => {
         const input = cleanInput(line);
 
         if (input.length === 0) {
-            rl.prompt();
+            state.readline.prompt();
             return;
-        } 
+        }
 
         const command = input[0];
-        const commandsRegistry = getCommands();
 
-        if (!commandsRegistry[command]) {
+        if (!state.commands[command]) {
             console.log(`Unknown command: "${command}". Type "help" for a list of commands.`);
-            rl.prompt();
+            state.readline.prompt();
             return;
         }
 
         try {
-            commandsRegistry[command].callback(commandsRegistry);
+            state.commands[command].callback(state);
         } catch (error) {
             console.log(error);
         }
 
-        rl.prompt();
-});
+        state.readline.prompt();
+    });
 }
