@@ -3,7 +3,6 @@ import { State } from "./state";
 export async function commandMap(state: State) {
     
     const locations = await state.api.fetchLocations(state.nextLocationsURL);
-    // console.log("locations", locations);
     state.nextLocationsURL = locations.next;
     state.prevLocationsURL = locations.previous;
     for (const [key, value] of Object.entries(locations.results)) {
