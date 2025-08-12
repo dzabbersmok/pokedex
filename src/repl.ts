@@ -8,7 +8,7 @@ export function cleanInput(input: string): string[] {
             .filter(word => word !== "");
 }
 
-export function startREPL(state: State) {
+export async function startREPL(state: State) {
     state.readline.prompt();
 
     state.readline.on('line', async (line) => {
@@ -28,7 +28,7 @@ export function startREPL(state: State) {
         }
 
         try {
-            state.commands[command].callback(state);
+            await state.commands[command].callback(state);
         } catch (error) {
             console.log(error);
         }
