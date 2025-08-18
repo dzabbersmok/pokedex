@@ -26,10 +26,8 @@ export class Cache {
     }
 
     #reap() {
-        console.log("REAP")
         for (let [key, value] of this.#cache) {
             if (value.createdAt < Date.now() - this.#interval) {
-                console.log("DELETE")
                 this.#cache.delete(key);
             }
         }
